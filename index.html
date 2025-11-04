@@ -852,6 +852,14 @@ script
                     transitionVideo.src = "https://www.dropbox.com/scl/fi/n1jbxbq62qblcxqhxpde8/V1p.mp4?rlkey=ex3jzisuenzwtsojhu0hlliut&st=qokwao8h&raw=1";
                     transitionVideo.classList.add("fixed", "top-0", "left-0", "w-full", "h-full", "object-cover", "z-50");
                     transitionVideo.style.display = "none";
+                    
+                    // Evita que Safari lo abra a pantalla completa
+                    transitionVideo.setAttribute("playsinline", "true");
+                    transitionVideo.setAttribute("webkit-playsinline", "true");
+                    
+                    // Opcional pero recomendado: silenciar para evitar bloqueo o fullscreen automático
+                    transitionVideo.muted = true;
+                    
                     document.body.appendChild(transitionVideo);
 
             // Evento al hacer clic en cualquier parte del body
@@ -901,4 +909,5 @@ script
 </body>
 
 </html>
+
 
