@@ -464,7 +464,7 @@ script
 
     <!-- Música -->
     <audio id="background-music" loop>
-        <source src="https://www.dropbox.com/scl/fi/q1j8vo5sa27zsxkk321gh/Omar-Cruz-Regalo-Video-Lyric-XEGrpn_NflA.mp3?rlkey=9a906ikuo48gsc5oc77b8h492&st=8wco092w&raw=1" type="audio/mp4">
+        <source src="https://www.dropbox.com/scl/fi/q1j8vo5sa27zsxkk321gh/Omar-Cruz-Regalo-Video-Lyric-XEGrpn_NflA.mp3?rlkey=9a906ikuo48gsc5oc77b8h492&st=8wco092w&raw=1" type="audio/mp3">
     </audio>
 
     <!-- Sección de la Portada -->
@@ -616,7 +616,7 @@ script
         </div>
     </div>
     </div>
-
+<br>
         <!-- Sección de invitados -->
     <div class="scroll-section">
         <div id="seccion-invitados" class="container-section">
@@ -686,7 +686,7 @@ script
             </div>
 
             <!-- Logica de la pagina -->
-    <script>
+        <script>
         // logica del widget del clima
             const LAT = 14.562608;   // Santo Tomás Milpas Altas
             const LON = -90.672364;
@@ -854,11 +854,14 @@ script
                     transitionVideo.style.display = "none";
                     document.body.appendChild(transitionVideo);
 
-                // Evento al hacer clic en cualquier parte del body
-                document.body.addEventListener("click", () => {
-                    // Pausar el video en bucle
-                    loopVideo.pause();
-                    loopVideo.style.display = "none";
+            // Evento al hacer clic en cualquier parte del body
+            document.body.addEventListener("click", () => {
+                // Pausar el video en bucle
+                loopVideo.pause();
+                loopVideo.style.display = "none";
+
+                // 🔊 Iniciar la música inmediatamente con el clic del usuario (Safari la permite)
+                music.play().catch(err => console.log("Error al reproducir música:", err));
 
                 // Mostrar y reproducir el video de transición
                 transitionVideo.style.display = "block";
@@ -870,12 +873,11 @@ script
                     setTimeout(() => {
                         transitionVideo.style.display = "none";
                         overlay.classList.add("hidden"); // Oculta el overlay
-                        music.play().catch(err => console.log("Error al reproducir música:", err));
                         document.body.style.overflowY = "auto"; // Habilita scroll
                     }, 1000);
                 });
             }, { once: true });
-            });
+                    });
 
             const seccion3 = document.getElementById('seccion3');
             const videoSeccion3 = document.getElementById('video-seccion3');
@@ -899,3 +901,4 @@ script
 </body>
 
 </html>
+
