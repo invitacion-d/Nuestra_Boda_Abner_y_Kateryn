@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda Abner y Kateryn</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/logo%20AK.png" type="image/LG-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3e9d2; 
+            color: #4b3832;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/BG%20B.png'); 
+            background-attachment: fixed; 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+
+        @font-face {
+            font-family: 'Optima Regular';
+            src: url('https://raw.githubusercontent.com/Aleg160/Imgbod/main/fonts/OPTIMA.TTF') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            }
+
+        @font-face {
+            font-family: 'Optima Bold';
+            src: url('https://raw.githubusercontent.com/Aleg160/Imgbod/main/fonts/OPTIMA_B.TTF') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            }
+
+        @font-face {
+            font-family: 'Optima Italic';
+            src: url('https://raw.githubusercontent.com/Aleg160/Imgbod/main/fonts/Optima_Italic.ttf') format('truetype');
+            font-weight: 400;
+            font-style: italic;
+            }
+
+        @font-face {
+            font-family: 'TT Quaris';
+            src: url('https://raw.githubusercontent.com/Aleg160/Imgbod/main/fuentes/TT%20Quaris%20Font%20Family/fonts/TTQuaris-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        
+            /* Clase personalizada para tu fuente */
+        .font-optima {
+            font-family: 'Optima Regular', sans-serif;
+        }
+
+        .font-noto-serif {
+            font-family: 'Noto Serif', serif;
+        }
+
+        .text-great-vibes {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .pinyon-script-regular {
+            font-family: "Pinyon Script", cursive;
+            font-weight: 400;
+            font-style: normal;
+            }
+
+        .font-tt-quaris {
+            font-family: 'TT Quaris', sans-serif;
+        }
+        
+script 
+        /* Video de introducción */
+        #intro-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: auto;
+            height: 932px;
+            object-fit: cover;
+            z-index: 9998;
+        }
+
+        /* Overlay negro */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: auto;
+            height: 932px;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+
+        #intro-overlay.hidden,
+        #intro-video.hidden {
+        opacity: 0;
+        pointer-events: none;
+        }
+
+        .scroll-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            will-change: opacity, transform;
+            text-align: center;
+
+            max-width: 600px; /* Define el ancho MÁXIMO */
+            width: 100%;       /* Ocupa el 100% del espacio disponible HASTA el máximo */
+            margin-left: auto;   /* Centra la sección horizontalmente */
+            margin-right: auto;
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #7c0000;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px; /* Cambio: Uso de un valor grande para esquinas completamente redondeadas */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #967554;
+            transform: translateY(-2px);
+        }
+
+        .icon-small {
+            width: 40px;
+            height: 40px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7c0000;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #4b3832;
+            margin-top: 0.25rem;
+        }
+
+        .image-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .play-pause-btn {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .play-pause-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Limpiamos la clase para que ya no sea un recuadro */
+        .container-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .countdown {
+            gap: 0.5rem; /* espacio entre números y dos puntos */
+        }
+
+        .countdown-item {
+            min-width: 2.7ch; /* mantiene el ancho uniforme */
+            text-align: center;
+        }
+
+        .separator {
+            margin: 0 0.3rem;
+            color: #5b1a0a;
+        }
+
+        .countdown-labels {
+            font-family: Optima, "Segoe UI", Candara, "Noto Sans", sans-serif;
+            font-style: italic;
+            font-size: 1.0rem; /* más pequeña */
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        /* Asegura que todos los nombres queden alineados */
+        .countdown-labels div {
+            width: 5rem; /* ajusta si quieres más o menos espacio */
+        }
+
+        #seccion-portada {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK1.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;           /* ocupa todo el eje horizontal disponible */
+            max-width: 430px;      /* no crece más que el diseño original */
+            aspect-ratio: 430 / 932; /* mantiene la proporción 430x932 */
+            height: auto;          /* la altura se calcula según el ancho */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;        /* centra horizontalmente */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-invitado {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK2.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-padres {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK3.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-post {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK4.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }   
+
+        #seccion-dia {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK14.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        #seccion-invitados {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK11.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-location {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK15.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 500;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-Ppost {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK7.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-album {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK8.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #seccion-logo {
+            background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK9.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .imagen-completa {
+            width: 100%;
+            max-width: 430px;
+            aspect-ratio: 430 / 932;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+    /* Video de introducción */
+        #intro-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 9998;
+        }
+    
+    /* Overlay negro */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+
+        #intro-overlay.hidden,
+        #intro-video.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- Video de introducción -->
+    <video id="intro-video" autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover z-40">
+        <source src="https://www.dropbox.com/scl/fi/s74boshimm2shhcs3v10e/V2p.mp4?rlkey=xknvgcj5kynn1vfu0pot2z28v&st=xjj8r6mu&raw=1" type="video/mp4">
+    </video>
+
+    <!-- Overlay negro -->
+    <div id="intro-overlay"></div>
+
+    <!-- Música -->
+    <audio id="background-music" loop>
+        <source src="https://www.dropbox.com/scl/fi/q1j8vo5sa27zsxkk321gh/Omar-Cruz-Regalo-Video-Lyric-XEGrpn_NflA.mp3?rlkey=9a906ikuo48gsc5oc77b8h492&st=8wco092w&dl=1" type="audio/mp4">
+    </audio>
+
+    <!-- Sección de la Portada -->
+    <div class="scroll-section">
+        <div id="seccion-portada" class="container-section">
+        </div>
+    </div>
+
+    <!-- Sección de la Invitacion -->
+    <div class="scroll-section">
+        <div id="seccion-invitado" class="container-section">
+        </div>
+    </div>
+
+    <!-- Sección de Imagen de los Padres -->
+    <div class="scroll-section">
+        <div id="seccion-padres" class="container-section">
+        </div>
+    </div>
+
+    <!-- Sección de Imagen post -->
+    <div class="scroll-section">
+        <div id="seccion-post" class="container-section">
+        </div>
+    </div>
+
+
+    <!--seccion tiempo-->
+    <div class="scroll-section">
+        <div id="seccion-dia" class="container-section">
+        <p class="font-optima italic text-gray-700 text-2xl mb-0 leading-tight">ㅤ</p>    
+        <p class="font-optima italic text-gray-700 text-3xl mb-0 leading-tight">
+            Te invitamos este
+        </p>
+        <br>
+            <h2 class="text-5xl pinyon-script-regular text-[#d19855] mt-2 mb-0 leading-none">
+                16 de Noviembre
+            </h2>
+            <h4 class="text-3xl pinyon-script-regular text-[#d19855] mt-2 mb-0 leading-none">
+                14:30 hrs
+            </h4>
+        <br>
+        
+        <p class="font-optima italic text-gray-700 text-3xl mb-0 leading-tight">
+                solo faltan
+            </p>
+    <br>
+        <div class="flex justify-center items-center text-great-vibes text-[#5b1a0a] text-6xl md:text-7xl lg:text-8xl font-semibold countdown">
+            <div class="countdown-item text-4xl" id="days">00</div>
+            <div class="separator text-4xl md:text-4xl lg:text-4xl">:</div>
+            <div class="countdown-item text-4xl" id="hours">00</div>
+            <div class="separator text-4xl md:text-4xl lg:text-4xl">:</div>
+            <div class="countdown-item text-4xl" id="minutes">00</div>
+            <div class="separator text-4xl md:text-4xl lg:text-4xl">:</div>
+            <div class="countdown-item text-4xl" id="seconds">00</div>
+        </div>
+
+        <div class="flex justify-center text-[#fffff] space-x-1 md:space-x-5 mt-1 countdown-labels">
+            <div>Días</div>
+            <div>Horas</div>
+            <div>Minutos</div>
+            <div>Segundos</div>
+        </div>
+    <br>
+        <div class="w-full flex justify-center">
+            <a href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Nuestra+Boda+Abner+%26+Kateryn&dates=20251116T203000Z/20251116T223000Z&details=Es+un+agrado+contar+con+tu+presencia+y+que+seas+parde+de+este+bello+momento&sf=true" target="_blank">
+                <img src="https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/B1.png"
+                    alt="Botón para ver la ubicación en el mapa"
+                    class="w-48 h-auto cursor-pointer transition-transform hover:scale-110">
+            </a>
+        </div>
+    <br><br>
+        <p class="font-optima italic text-gray-700 text-3xl mb-0 leading-tight">
+            Lugar de ceremonia
+        </p>
+
+        <h2 class="text-5xl pinyon-script-regular text-[#62745c] mt-2 mb-0 leading-none">
+                Jardín Versalles
+        </h2>
+
+        <p class="font-tt-quaris italic text-gray-700 text-1xl mb-0 leading-tight">
+            Calzada Ebenezer,<br>Callejón Giron lote 70 fracción 2 zona 4,<br>Santo Tomas Milpas Altas, Sacatepequez.
+        </p>
+    <br>
+        <iframe
+            src="https://embed.waze.com/iframe?zoom=15&lat=14.562608&lon=-90.672364&pin=1"
+            width="370"
+            height="305"
+            style="border:2px solid; border-radius: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);"
+            allowfullscreen>
+        </iframe>
+        </div>
+    </div>
+
+    <!-- Sección de boton y clima -->
+        <div class="scroll-section">
+        <div id="seccion-location" class="container-section">
+            <!-- Botón del mapa -->
+            <div class="w-full flex justify-center">
+            <a href="https://www.waze.com/en/live-map/directions/gt/sacatepequez/santo-tomas-milpas-altas/jardin-versalles?place=EjdKYXJkw61uIFZlcnNhbGxlcywgU2FudG8gVG9tw6FzIE1pbHBhcyBBbHRhcywgR3VhdGVtYWxhIi4qLAoUChIJmxDpcFYJiYURWP9UKRvH17kSFAoSCSnxHThXCYmFETWpSNk2IVT_" target="_blank">
+                <img src="https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/Bt2.png"
+                alt="Botón para ver la ubicación en el mapa"
+                class="w-48 h-auto cursor-pointer transition-transform hover:scale-110">
+            </a>
+            </div>
+            <br>
+
+        <!-- 🔹 Widget del clima -->
+        <div class="w-full flex justify-center mb-8">
+        <div id="weatherWidget" class="flex flex-col items-center text-gray-800 font-sans bg-transparent p-4">
+            <h2 class="text-2xl font-tt-quaris italic text-center text-gray-900 mb-2">
+            Pronóstico del Clima el Día de la Ceremonia
+            </h2>
+            <br>
+
+            <!-- Descripción general del clima -->
+            <p id="desc" class="text-3xl text-center font-semibold text-gray-900">☀️ --</p>
+
+            <div class="grid grid-cols-2 gap-4 mt-4">
+            <!-- Temperatura -->
+            <div class="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-md">
+                <img src="https://img.icons8.com/?size=192&id=urESu1vxT0eG&format=png" alt="Precipitaciones" class="w-10 h-10 mb-2"/>
+                <p class="text-xs font-semibold text-gray-700">TEMPERATURA</p>
+                <p id="temp" class="text-lg font-bold text-blue-600">--° / --°</p>
+            </div>
+
+            <!-- Precipitación -->
+            <div class="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-md">
+                <img src="https://img.icons8.com/?size=200&id=Vhgkr6lfmGL8&format=png" alt="Precipitaciones" class="w-10 h-10 mb-2"/>
+                <p class="text-xs font-semibold text-gray-700">PRECIPITACIÓN</p>
+                <p id="prec" class="text-lg font-bold text-blue-600">-- mm</p>
+            </div>
+
+            <!-- Viento -->
+            <div class="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-md">
+                <img src="https://img.icons8.com/?size=200&id=wGscuXAAEzt4&format=png" alt="Precipitaciones" class="w-10 h-10 mb-2"/>
+                <p class="text-xs font-semibold text-gray-700">VIENTO</p>
+                <p id="wind" class="text-lg font-bold text-blue-600">-- km/h</p>
+            </div>
+
+            <!-- Probabilidad de lluvia -->
+            <div class="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-md">
+                <img src="https://img.icons8.com/?size=200&id=15360&format=png" alt="Precipitaciones" class="w-10 h-10 mb-2"/>
+                <p class="text-xs font-semibold text-gray-700">PROBAB. DE LLUVIA</p>
+                <p id="rainProb" class="text-lg font-bold text-blue-600">-- %</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+        <!-- Sección de invitados -->
+    <div class="scroll-section">
+        <div id="seccion-invitados" class="container-section">
+            <!-- Nombre personalizado -->
+            <p id="nombre-personalizado" class="text-great-vibes text-[#d19855] text-5xl mb-3"></p>
+
+            <!-- Texto "Tenemos reservados" -->
+            <p class="font-noto-serif italic text-gray-700 text-2xl mb-2">Tenemos reservados</p>
+
+            <!-- Número de cupos -->
+            <p id="solo-numero-cupos" class="text-great-vibes text-[#d19855] text-4xl mb-1"></p>
+
+            <!-- Texto "Lugares para ustedes" -->
+            <p class="font-noto-serif italic text-gray-700 text-2xl mb-2">Lugares para ustedes</p>
+
+            <!-- BOTÓN -->
+            <div class="w-full flex justify-center mb-8">
+                <a href="https://wa.link/lrlipx" target="_blank">
+                    <img src="https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/B6.png"
+                        alt="Botón para confirmar asistencia"
+                        class="w-48 h-auto cursor-pointer transition-transform hover:scale-110">
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+        <!-- Sección de Imagen -->
+        <div class="scroll-section">
+            <div id="seccion-Ppost" class="container-section">
+            </div>
+        </div>
+
+            <!-- Sección de Imagen de los album -->
+        <div class="scroll-section">
+            <div id="seccion-album" class="container-section">
+                <h2 class="text-5xl text-great-vibes mb-5 text-[#7c0000]">ㅤ</h2>
+                <p class="font-noto-serif italic text-gray-700 max-w-lg mx-auto">
+                    <br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ<br>ㅤ
+                </p>
+                <div class="w-full flex justify-center">
+                    <h2 class="text-2xl font-bold text-center text-gray-950"></h2>
+                <a href="https://web.dotstheapp.com/a?group=2179312&code=xYb3AoXJ&dlBy=rivasalejandro1604&utm_source=guest&utm_medium=share&utm_campaign=guest_event_album&force_app=1" target="_blank">
+                    <img src="https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/B5.png"
+                    alt="Botón para ver la ubicación en el mapa"
+                    class="w-48 h-auto cursor-pointer transition-transform hover:scale-110">
+                </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Albun de fotos -->
+        <div class="scroll-section">
+            <div class="imagen-completa" style="background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK16.png');"></div>
+        </div>
+        <div class="scroll-section">
+            <div class="imagen-completa" style="background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK17.png');"></div>
+        </div>
+        <div class="scroll-section">
+            <div class="imagen-completa" style="background-image: url('https://raw.githubusercontent.com/Aleg160/Imgbod/refs/heads/main/AK18.png');"></div>
+        </div>
+
+            <!-- Sección de Logo -->
+            <div class="scroll-section">
+                <div id="seccion-logo" class="container-section">
+                </div>
+            </div>
+
+            <!-- Logica de la pagina -->
+    <script>
+        // logica del widget del clima
+            const LAT = 14.562608;   // Santo Tomás Milpas Altas
+            const LON = -90.672364;
+            const TIMEZONE = "America/Guatemala";
+            const TARGET_DATE = "2025-11-16"; // Día de la ceremonia
+
+            // Traducción del código del clima
+            function mapWeatherCode(code) {
+            const map = {
+                0: ["Despejado", "☀️"],
+                1: ["Principalmente despejado", "🌤️"],
+                2: ["Parcialmente nublado", "⛅"],
+                3: ["Nublado", "☁️"],
+                45: ["Niebla", "🌫️"],
+                48: ["Escarcha", "🌫️"],
+                51: ["Llovizna ligera", "🌦️"],
+                53: ["Llovizna moderada", "🌧️"],
+                55: ["Llovizna intensa", "🌧️"],
+                61: ["Lluvia ligera", "🌧️"],
+                63: ["Lluvia", "🌧️"],
+                65: ["Lluvia fuerte", "🌧️"],
+                80: ["Chubascos", "⛈️"],
+                95: ["Tormenta", "⛈️"]
+            };
+            return map[code] || ["Sin datos", "❓"];
+            }
+
+            async function fetchForecastForDate(lat, lon, date) {
+            const dailyParams = [
+                "temperature_2m_max",
+                "temperature_2m_min",
+                "precipitation_sum",
+                "precipitation_probability_max",
+                "windspeed_10m_max",
+                "weathercode"
+            ].join(",");
+
+            const url =
+                `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                `&timezone=${TIMEZONE}&daily=${dailyParams}` +
+                `&start_date=${date}&end_date=${date}`;
+
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error("Error al obtener pronóstico");
+            const data = await resp.json();
+            return data.daily;
+            }
+
+            function updateWidget(daily) {
+            if (!daily || !daily.time || daily.time.length === 0) {
+                console.warn("No se encontraron datos del clima");
+                return;
+            }
+
+            const idx = 0;
+            const tmax = daily.temperature_2m_max[idx];
+            const tmin = daily.temperature_2m_min[idx];
+            const precip = daily.precipitation_sum[idx];
+            const prob = daily.precipitation_probability_max[idx];
+            const wind = daily.windspeed_10m_max[idx];
+            const code = daily.weathercode[idx];
+
+            const [text, emoji] = mapWeatherCode(code);
+
+            document.getElementById("desc").textContent = `${emoji} ${text}`;
+            document.getElementById("temp").textContent = `${tmax}° / ${tmin}°`;
+            document.getElementById("prec").textContent = `${precip} mm`;
+            document.getElementById("wind").textContent = `${wind} km/h`;
+            document.getElementById("rainProb").textContent = `${prob}%`;
+            }
+
+            async function initWeatherWidget() {
+            try {
+                const daily = await fetchForecastForDate(LAT, LON, TARGET_DATE);
+                updateWidget(daily);
+            } catch (err) {
+                console.error("No se pudo cargar el pronóstico:", err);
+            }
+            }
+
+            // Ejecutar al cargar la página
+            window.addEventListener("load", initWeatherWidget);
+
+            // Refrescar automáticamente cada 3 horas
+            setInterval(initWeatherWidget, 3 * 60 * 60 * 1000);
+
+                    // Lógica de JavaScript para el efecto de scroll
+                    const scrollElements = document.querySelectorAll('.scroll-section');
+
+                    const elementInView = (el, dividend = 1) => {
+                        const elementTop = el.getBoundingClientRect().top;
+                        return (
+                            elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+                        );
+                    };
+
+                    const displayScrollElement = (element) => {
+                        element.classList.add('section-visible');
+                    };
+
+                    const handleScrollAnimation = () => {
+                        scrollElements.forEach((el) => {
+                            if (elementInView(el, 1.25)) {
+                                displayScrollElement(el);
+                            }
+                        });
+                    };
+
+                    window.addEventListener('scroll', handleScrollAnimation);
+                    document.addEventListener('DOMContentLoaded', handleScrollAnimation);
+
+                    // Lógica para el contador de tiempo
+                    const countdown = () => {
+                        const eventDate = new Date('Nov 16, 2025 14:30:00').getTime();
+                        const now = new Date().getTime();
+                        const distance = eventDate - now;
+
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+                        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+                        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+                        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+
+                        if (distance < 0) {
+                            clearInterval(countdownInterval);
+                            document.getElementById('countdown').innerHTML = "¡El evento ha comenzado!";
+                        }
+                    };
+
+                    const countdownInterval = setInterval(countdown, 1000);
+                    countdown();
+
+                    // Función para leer parámetros de URL
+                    function obtenerParametroURL(nombre) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        return urlParams.get(nombre);
+                    }
+
+                    // Personalizar contenido cuando carga la página
+                    window.addEventListener('DOMContentLoaded', function () {
+                        const nombreInvitado = obtenerParametroURL('nombre');
+                        const cuposDisponibles = obtenerParametroURL('cupos');
+
+                        if (nombreInvitado) {
+                            document.getElementById('nombre-personalizado').textContent = nombreInvitado.replace(/_/g, ' ');
+                        }
+
+                        if (cuposDisponibles) {
+                            document.getElementById('solo-numero-cupos').textContent = cuposDisponibles;
+                        }
+
+                    //lógica de video con transición
+                    const loopVideo = document.getElementById("intro-video"); // Video en bucle
+                    const overlay = document.getElementById("intro-overlay"); // Capa de introducción
+                    const music = document.getElementById("background-music"); // Música de fondo
+
+                    // Crear el video de transición dinámicamente
+                    const transitionVideo = document.createElement("video");
+                    transitionVideo.src = "https://www.dropbox.com/scl/fi/n1jbxbq62qblcxqhxpde8/V1p.mp4?rlkey=ex3jzisuenzwtsojhu0hlliut&st=qokwao8h&raw=1";
+                    transitionVideo.classList.add("fixed", "top-0", "left-0", "w-full", "h-full", "object-cover", "z-50");
+                    transitionVideo.style.display = "none";
+                    document.body.appendChild(transitionVideo);
+
+                // Evento al hacer clic en cualquier parte del body
+                document.body.addEventListener("click", () => {
+                    // Pausar el video en bucle
+                    loopVideo.pause();
+                    loopVideo.style.display = "none";
+
+                // Mostrar y reproducir el video de transición
+                transitionVideo.style.display = "block";
+                transitionVideo.play();
+
+                // Cuando termina el segundo video
+                transitionVideo.addEventListener("ended", () => {
+                    transitionVideo.classList.add("fade-out");
+                    setTimeout(() => {
+                        transitionVideo.style.display = "none";
+                        overlay.classList.add("hidden"); // Oculta el overlay
+                        music.play().catch(err => console.log("Error al reproducir música:", err));
+                        document.body.style.overflowY = "auto"; // Habilita scroll
+                    }, 1000);
+                });
+            }, { once: true });
+            });
+
+            const seccion3 = document.getElementById('seccion3');
+            const videoSeccion3 = document.getElementById('video-seccion3');
+
+            const observerVideo = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    videoSeccion3.style.display = 'block';
+                    videoSeccion3.play().catch(error => {
+                    console.log("⚠️ El navegador bloqueó la reproducción automática. Requiere interacción del usuario.", error);
+                    });
+                } else {
+                    videoSeccion3.pause();
+                    videoSeccion3.style.display = 'none';
+                }
+                });
+            }, { threshold: 0.5 });
+
+            observerVideo.observe(seccion3);
+    </script>
+</body>
+</html>
