@@ -98,6 +98,7 @@ script
 
         /* Overlay negro */
         #intro-overlay {
+            cursor: pointer;
             position: fixed;
             top: 0; left: 0;
             width: auto;
@@ -455,8 +456,8 @@ script
 <body class="bg-gray-50">
 
     <!-- Video de introducción -->
-    <video id="intro-video" autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover z-40">
-        <source src="https://www.dropbox.com/scl/fi/s74boshimm2shhcs3v10e/V2p.mp4?rlkey=xknvgcj5kynn1vfu0pot2z28v&st=xjj8r6mu&raw=1" type="video/mp4">
+    <video id="intro-video" autoplay muted loop playsinline>
+        <source src="https://www.dropbox.com/scl/fi/s74boshimm2shhcs3v10e/V2p.mp4?rlkey=xknvgcj5kynn1vfu0pot2z28v&raw=1" type="video/mp4">
     </video>
 
     <!-- Overlay negro -->
@@ -686,164 +687,130 @@ script
             </div>
 
             <!-- Logica de la pagina -->
-        <script>
-        // logica del widget del clima
-            const LAT = 14.562608;   // Santo Tomás Milpas Altas
-            const LON = -90.672364;
-            const TIMEZONE = "America/Guatemala";
-            const TARGET_DATE = "2025-11-16"; // Día de la ceremonia
+<script>
+/* =========================
+   CONFIGURACIÓN CLIMA
+========================= */
+const LAT = 14.546;
+const LON = -90.662;
+const TIMEZONE = "America/Guatemala";
+const TARGET_DATE = "2025-10-26";
 
-            // Traducción del código del clima
-            function mapWeatherCode(code) {
-            const map = {
-                0: ["Despejado", "☀️"],
-                1: ["Principalmente despejado", "🌤️"],
-                2: ["Parcialmente nublado", "⛅"],
-                3: ["Nublado", "☁️"],
-                45: ["Niebla", "🌫️"],
-                48: ["Escarcha", "🌫️"],
-                51: ["Llovizna ligera", "🌦️"],
-                53: ["Llovizna moderada", "🌧️"],
-                55: ["Llovizna intensa", "🌧️"],
-                61: ["Lluvia ligera", "🌧️"],
-                63: ["Lluvia", "🌧️"],
-                65: ["Lluvia fuerte", "🌧️"],
-                80: ["Chubascos", "⛈️"],
-                95: ["Tormenta", "⛈️"]
-            };
-            return map[code] || ["Sin datos", "❓"];
-            }
+function mapWeatherCode(code) {
+    const map = {
+        0: ["Despejado", "☀️"],
+        1: ["Principalmente despejado", "🌤️"],
+        2: ["Parcialmente nublado", "⛅"],
+        3: ["Nublado", "☁️"],
+        45: ["Niebla", "🌫️"],
+        48: ["Escarcha", "🌫️"],
+        51: ["Llovizna ligera", "🌦️"],
+        53: ["Llovizna moderada", "🌧️"],
+        55: ["Llovizna intensa", "🌧️"],
+        61: ["Lluvia ligera", "🌧️"],
+        63: ["Lluvia", "🌧️"],
+        65: ["Lluvia fuerte", "🌧️"],
+        80: ["Chubascos", "⛈️"],
+        95: ["Tormenta", "⛈️"]
+    };
+    return map[code] || ["Sin datos", "❓"];
+}
 
-            async function fetchForecastForDate(lat, lon, date) {
-            const dailyParams = [
-                "temperature_2m_max",
-                "temperature_2m_min",
-                "precipitation_sum",
-                "precipitation_probability_max",
-                "windspeed_10m_max",
-                "weathercode"
-            ].join(",");
+async function fetchForecastForDate(lat, lon, date) {
+    const dailyParams = [
+        "temperature_2m_max",
+        "temperature_2m_min",
+        "precipitation_sum",
+        "windspeed_10m_max",
+        "weathercode"
+    ].join(",");
 
-            const url =
-                `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-                `&timezone=${TIMEZONE}&daily=${dailyParams}` +
-                `&start_date=${date}&end_date=${date}`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=${TIMEZONE}&daily=${dailyParams}&start_date=${date}&end_date=${date}`;
 
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error("Error al obtener pronóstico");
-            const data = await resp.json();
-            return data.daily;
-            }
+    const resp = await fetch(url);
+    const data = await resp.json();
+    return data.daily;
+}
 
-            function updateWidget(daily) {
-            if (!daily || !daily.time || daily.time.length === 0) {
-                console.warn("No se encontraron datos del clima");
-                return;
-            }
+async function initWeatherWidget() {
+    try {
+        const daily = await fetchForecastForDate(LAT, LON, TARGET_DATE);
+        const idx = 0;
+        document.getElementById("temp").textContent = `${daily.temperature_2m_max[idx]}° / ${daily.temperature_2m_min[idx]}°`;
+        document.getElementById("prec").textContent = `${daily.precipitation_sum[idx]} mm`;
+        document.getElementById("wind").textContent = `${daily.windspeed_10m_max[idx]} km/h`;
+        document.getElementById("hum").textContent = "—%";
+    } catch (e) {
+        console.error("Error clima:", e);
+    }
+}
 
-            const idx = 0;
-            const tmax = daily.temperature_2m_max[idx];
-            const tmin = daily.temperature_2m_min[idx];
-            const precip = daily.precipitation_sum[idx];
-            const prob = daily.precipitation_probability_max[idx];
-            const wind = daily.windspeed_10m_max[idx];
-            const code = daily.weathercode[idx];
+window.addEventListener("load", initWeatherWidget);
+setInterval(initWeatherWidget, 3 * 60 * 60 * 1000);
 
-            const [text, emoji] = mapWeatherCode(code);
+/* =========================
+   ANIMACIONES SCROLL
+========================= */
+const scrollElements = document.querySelectorAll('.scroll-section');
 
-            document.getElementById("desc").textContent = `${emoji} ${text}`;
-            document.getElementById("temp").textContent = `${tmax}° / ${tmin}°`;
-            document.getElementById("prec").textContent = `${precip} mm`;
-            document.getElementById("wind").textContent = `${wind} km/h`;
-            document.getElementById("rainProb").textContent = `${prob}%`;
-            }
+const elementInView = (el, dividend = 1.25) => {
+    const elementTop = el.getBoundingClientRect().top;
+    return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
+};
 
-            async function initWeatherWidget() {
-            try {
-                const daily = await fetchForecastForDate(LAT, LON, TARGET_DATE);
-                updateWidget(daily);
-            } catch (err) {
-                console.error("No se pudo cargar el pronóstico:", err);
-            }
-            }
+const handleScrollAnimation = () => {
+    scrollElements.forEach(el => {
+        if (elementInView(el)) el.classList.add('section-visible');
+    });
+};
 
-            // Ejecutar al cargar la página
-            window.addEventListener("load", initWeatherWidget);
+window.addEventListener('scroll', handleScrollAnimation);
+document.addEventListener('DOMContentLoaded', handleScrollAnimation);
 
-            // Refrescar automáticamente cada 3 horas
-            setInterval(initWeatherWidget, 3 * 60 * 60 * 1000);
+/* =========================
+   CONTADOR
+========================= */
+const countdown = () => {
+    const eventDate = new Date('Nov 16, 2025 14:30:00').getTime();
+    const now = new Date().getTime();
+    const distance = eventDate - now;
 
-                    // Lógica de JavaScript para el efecto de scroll
-                    const scrollElements = document.querySelectorAll('.scroll-section');
+    if (distance < 0) return;
 
-                    const elementInView = (el, dividend = 1) => {
-                        const elementTop = el.getBoundingClientRect().top;
-                        return (
-                            elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-                        );
-                    };
+    document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+    document.getElementById('hours').innerText = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    document.getElementById('minutes').innerText = Math.floor((distance / (1000 * 60)) % 60);
+    document.getElementById('seconds').innerText = Math.floor((distance / 1000) % 60);
+};
 
-                    const displayScrollElement = (element) => {
-                        element.classList.add('section-visible');
-                    };
+setInterval(countdown, 1000);
+countdown();
 
-                    const handleScrollAnimation = () => {
-                        scrollElements.forEach((el) => {
-                            if (elementInView(el, 1.25)) {
-                                displayScrollElement(el);
-                            }
-                        });
-                    };
+/* =========================
+   PERSONALIZACIÓN URL
+========================= */
+function obtenerParametroURL(nombre) {
+    return new URLSearchParams(window.location.search).get(nombre);
+}
 
-                    window.addEventListener('scroll', handleScrollAnimation);
-                    document.addEventListener('DOMContentLoaded', handleScrollAnimation);
+document.addEventListener('DOMContentLoaded', () => {
+    const nombreInvitado = obtenerParametroURL('nombre');
+    const cuposDisponibles = obtenerParametroURL('cupos');
 
-                    // Lógica para el contador de tiempo
-                    const countdown = () => {
-                        const eventDate = new Date('Nov 16, 2025 14:30:00').getTime();
-                        const now = new Date().getTime();
-                        const distance = eventDate - now;
+    if (nombreInvitado) {
+        document.getElementById('nombre-personalizado').textContent =
+            nombreInvitado.replace(/_/g, ' ');
+    }
 
-                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    if (cuposDisponibles) {
+        document.getElementById('solo-numero-cupos').textContent = cuposDisponibles;
+    }
+});
 
-                        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-                        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-                        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-                        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-
-                        if (distance < 0) {
-                            clearInterval(countdownInterval);
-                            document.getElementById('countdown').innerHTML = "¡El evento ha comenzado!";
-                        }
-                    };
-
-                    const countdownInterval = setInterval(countdown, 1000);
-                    countdown();
-
-                    // Función para leer parámetros de URL
-                    function obtenerParametroURL(nombre) {
-                        const urlParams = new URLSearchParams(window.location.search);
-                        return urlParams.get(nombre);
-                    }
-
-                    // Personalizar contenido cuando carga la página
-                    window.addEventListener('DOMContentLoaded', function () {
-                        const nombreInvitado = obtenerParametroURL('nombre');
-                        const cuposDisponibles = obtenerParametroURL('cupos');
-
-                        if (nombreInvitado) {
-                            document.getElementById('nombre-personalizado').textContent = nombreInvitado.replace(/_/g, ' ');
-                        }
-
-                        if (cuposDisponibles) {
-                            document.getElementById('solo-numero-cupos').textContent = cuposDisponibles;
-                        }
-
-                    //lógica de video con transición
-                    document.addEventListener("DOMContentLoaded", () => {
+/* =========================
+   🎬 INTRO CON DOBLE VIDEO
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
 
     const loopVideo = document.getElementById("intro-video");
     const overlay = document.getElementById("intro-overlay");
@@ -852,9 +819,9 @@ script
     document.body.style.overflow = "hidden";
 
     const transitionVideo = document.createElement("video");
-    transitionVideo.src = "V1p.mp4"; // ⚠️ LOCAL O CDN REAL
-    transitionVideo.muted = true;
+    transitionVideo.src = "https://www.dropbox.com/scl/fi/n1jbxbq62qblcxqhxpde8/V1p.mp4?rlkey=ex3jzisuenzwtsojhu0hlliut&raw=1";
     transitionVideo.playsInline = true;
+    transitionVideo.autoplay = false;
     transitionVideo.style.position = "fixed";
     transitionVideo.style.inset = "0";
     transitionVideo.style.width = "100%";
@@ -865,12 +832,10 @@ script
 
     document.body.appendChild(transitionVideo);
 
-    document.body.addEventListener("click", () => {
+    overlay.addEventListener("click", () => {
 
         loopVideo.pause();
-        loopVideo.remove();
-
-        music.play().catch(() => {});
+        loopVideo.style.display = "none";
 
         transitionVideo.style.display = "block";
         transitionVideo.play();
@@ -881,14 +846,38 @@ script
             setTimeout(() => {
                 transitionVideo.remove();
                 overlay.remove();
+                music.play().catch(()=>{});
                 document.body.style.overflow = "auto";
             }, 1000);
         };
 
     }, { once: true });
-
 });
-    </script>
+
+/* =========================
+   VIDEO SECCIÓN 3
+========================= */
+const seccion3 = document.getElementById('seccion3');
+const videoSeccion3 = document.getElementById('video-seccion3');
+
+if (seccion3 && videoSeccion3) {
+    const observerVideo = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                videoSeccion3.style.display = 'block';
+                videoSeccion3.play().catch(()=>{});
+            } else {
+                videoSeccion3.pause();
+                videoSeccion3.style.display = 'none';
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observerVideo.observe(seccion3);
+}
+</script>
+
 </body>
 
 </html>
+
