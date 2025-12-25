@@ -863,52 +863,50 @@ script
                     document.body.appendChild(transitionVideo);
 
             // Evento al hacer clic en cualquier parte del body
-            document.body.addEventListener("click", () => {
-                // Pausar el video en bucle
-                loopVideo.pause();
-                loopVideo.style.display = "none";
+            document.addEventListener("DOMContentLoaded", () => {
+    const loopVideo = document.getElementById("intro-video");
+    const overlay = document.getElementById("intro-overlay");
+    const music = document.getElementById("background-music");
 
-                // 🔊 Iniciar la música inmediatamente con el clic del usuario (Safari la permite)
-                music.play().catch(err => console.log("Error al reproducir música:", err));
+    if (!loopVideo || !overlay || !music) {
+        console.error("❌ Elementos del video no encontrados");
+        return;
+    }
 
-                // Mostrar y reproducir el video de transición
-                transitionVideo.style.display = "block";
-                transitionVideo.play();
+    const transitionVideo = document.createElement("video");
+    transitionVideo.src = "V1p.mp4"; // prueba local primero
+    transitionVideo.className = "fixed top-0 left-0 w-full h-full object-cover z-50";
+    transitionVideo.style.display = "none";
+    transitionVideo.muted = true;
+    transitionVideo.playsInline = true;
 
-                // Cuando termina el segundo video
-                transitionVideo.addEventListener("ended", () => {
-                    transitionVideo.classList.add("fade-out");
-                    setTimeout(() => {
-                        transitionVideo.style.display = "none";
-                        overlay.classList.add("hidden"); // Oculta el overlay
-                        document.body.style.overflowY = "auto"; // Habilita scroll
-                    }, 1000);
-                });
-            }, { once: true });
-                    });
+    document.body.appendChild(transitionVideo);
 
-            const seccion3 = document.getElementById('seccion3');
-            const videoSeccion3 = document.getElementById('video-seccion3');
+    document.body.addEventListener("click", () => {
+        loopVideo.pause();
+        loopVideo.style.display = "none";
 
-            const observerVideo = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    videoSeccion3.style.display = 'block';
-                    videoSeccion3.play().catch(error => {
-                    console.log("⚠️ El navegador bloqueó la reproducción automática. Requiere interacción del usuario.", error);
-                    });
-                } else {
-                    videoSeccion3.pause();
-                    videoSeccion3.style.display = 'none';
-                }
-                });
-            }, { threshold: 0.5 });
+        music.play().catch(() => {});
 
-            observerVideo.observe(seccion3);
+        transitionVideo.style.display = "block";
+        transitionVideo.play();
+
+        transitionVideo.onended = () => {
+            transitionVideo.classList.add("fade-out");
+            setTimeout(() => {
+                transitionVideo.remove();
+                overlay.classList.add("hidden");
+                document.body.style.overflowY = "auto";
+            }, 1000);
+        };
+    }, { once: true });
+});
+
     </script>
 </body>
 
 </html>
+
 
 
 
