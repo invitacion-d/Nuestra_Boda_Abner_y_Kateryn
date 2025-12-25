@@ -843,48 +843,32 @@ script
                         }
 
                     //lógica de video con transición
-                    const loopVideo = document.getElementById("intro-video"); // Video en bucle
-                    const overlay = document.getElementById("intro-overlay"); // Capa de introducción
-                    const music = document.getElementById("background-music"); // Música de fondo
+                    document.addEventListener("DOMContentLoaded", () => {
 
-                    // Crear el video de transición dinámicamente
-                    const transitionVideo = document.createElement("video");
-                    transitionVideo.src = "https://www.dropbox.com/scl/fi/n1jbxbq62qblcxqhxpde8/V1p.mp4?rlkey=ex3jzisuenzwtsojhu0hlliut&st=qokwao8h&raw=1";
-                    transitionVideo.classList.add("fixed", "top-0", "left-0", "w-full", "h-full", "object-cover", "z-50");
-                    transitionVideo.style.display = "none";
-                    
-                    // Evita que Safari lo abra a pantalla completa
-                    transitionVideo.setAttribute("playsinline", "true");
-                    transitionVideo.setAttribute("webkit-playsinline", "true");
-                    
-                    // Opcional pero recomendado: silenciar para evitar bloqueo o fullscreen automático
-                    transitionVideo.muted = true;
-                    
-                    document.body.appendChild(transitionVideo);
-
-            // Evento al hacer clic en cualquier parte del body
-            document.addEventListener("DOMContentLoaded", () => {
     const loopVideo = document.getElementById("intro-video");
     const overlay = document.getElementById("intro-overlay");
     const music = document.getElementById("background-music");
 
-    if (!loopVideo || !overlay || !music) {
-        console.error("❌ Elementos del video no encontrados");
-        return;
-    }
+    document.body.style.overflow = "hidden";
 
     const transitionVideo = document.createElement("video");
-    transitionVideo.src = "V1p.mp4"; // prueba local primero
-    transitionVideo.className = "fixed top-0 left-0 w-full h-full object-cover z-50";
-    transitionVideo.style.display = "none";
+    transitionVideo.src = "V1p.mp4"; // ⚠️ LOCAL O CDN REAL
     transitionVideo.muted = true;
     transitionVideo.playsInline = true;
+    transitionVideo.style.position = "fixed";
+    transitionVideo.style.inset = "0";
+    transitionVideo.style.width = "100%";
+    transitionVideo.style.height = "100%";
+    transitionVideo.style.objectFit = "cover";
+    transitionVideo.style.zIndex = "10000";
+    transitionVideo.style.display = "none";
 
     document.body.appendChild(transitionVideo);
 
     document.body.addEventListener("click", () => {
+
         loopVideo.pause();
-        loopVideo.style.display = "none";
+        loopVideo.remove();
 
         music.play().catch(() => {});
 
@@ -893,20 +877,18 @@ script
 
         transitionVideo.onended = () => {
             transitionVideo.classList.add("fade-out");
+
             setTimeout(() => {
                 transitionVideo.remove();
-                overlay.classList.add("hidden");
-                document.body.style.overflowY = "auto";
+                overlay.remove();
+                document.body.style.overflow = "auto";
             }, 1000);
         };
-    }, { once: true });
-});
 
+    }, { once: true });
+
+});
     </script>
 </body>
 
 </html>
-
-
-
-
